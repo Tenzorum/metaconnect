@@ -147,7 +147,7 @@ const INITIAL_STATE = {
     process.env.NODE_ENV === "development"
       ? "metaconnect-test"
       : "metaconnect-prod",
-  devMonitor: process.env.NODE_ENV === "development",
+  devMonitor: process.env.NODE_ENV === "bob",
   ipfs: null,
   room: null,
   loading: false,

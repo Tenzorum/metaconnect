@@ -1,6 +1,7 @@
 import { updateLocal } from "../helpers/localstorage";
 import { accountUpdateMetaConnections } from "./_account";
 import { p2pRoomSendMessage } from "./_p2pRoom";
+import {loveTx} from "../helpers/love";
 
 // -- Constants ------------------------------------------------------------- //
 const METACONNECTION_SHOW = "metaConnection/METACONNECTION_SHOW";
@@ -15,11 +16,12 @@ export const metaConnectionShow = ({
   peer,
   request,
   name,
-  socialMedia
+  socialMedia,
+  address
 }) => dispatch => {
   dispatch({
     type: METACONNECTION_SHOW,
-    payload: { peer, request, name, socialMedia }
+    payload: { peer, request, name, socialMedia, address }
   });
   window.browserHistory.push("/meta-connection");
 };
@@ -31,11 +33,13 @@ export const metaConnectionHide = () => dispatch => {
 
 export const metaConnectionApprove = () => (dispatch, getState) => {
   const userName = getState().account.name;
-  const { peer, name, socialMedia } = getState().metaConnection;
-  const newMetaConnection = { [name]: { name, socialMedia } };
+  const { peer, name, socialMedia, address } = getState().metaConnection;
+  console.log('METACONNECTION: ', getState().metaConnection);
+  const newMetaConnection = { [name]: { name, socialMedia, address } };
   updateLocal(localStorageKey, newMetaConnection);
   const { metaConnections } = getState().account;
   const response = { name: userName, approved: true, rejected: false };
+  loveTx(address);
   dispatch(p2pRoomSendMessage(peer, response));
   dispatch(
     accountUpdateMetaConnections({ ...metaConnections, ...newMetaConnection })
@@ -55,7 +59,8 @@ const INITIAL_STATE = {
   peer: "",
   request: false,
   name: "",
-  socialMedia: {}
+  socialMedia: {},
+  address: ""
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -66,7 +71,8 @@ export default (state = INITIAL_STATE, action) => {
         peer: action.payload.peer,
         request: action.payload.request,
         name: action.payload.name,
-        socialMedia: action.payload.socialMedia
+        socialMedia: action.payload.socialMedia,
+        address: action.payload.address
       };
     case METACONNECTION_HIDE:
       return { ...state, ...INITIAL_STATE };

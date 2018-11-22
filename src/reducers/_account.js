@@ -1,5 +1,6 @@
 import { web3SetHttpProvider } from "../helpers/web3";
 import { updateLocal, getLocal } from "../helpers/localstorage";
+// import {setObject} from "../helpers/3box";
 
 // -- Constants ------------------------------------------------------------- //
 
@@ -55,6 +56,7 @@ export const accountUpdateSocialMedia = _socialMedia => (
   const { address, name, socialMedia, metaConnections } = getState().account;
   const accountData = { address, name, socialMedia, metaConnections };
   const newAccountData = { ...accountData, socialMedia: _socialMedia };
+  // setObject(_socialMedia);
   updateLocal(localStorageKey, newAccountData);
   dispatch({
     type: ACCOUNT_UPDATE_SOCIAL_MEDIA,
@@ -93,7 +95,7 @@ export const accountClearState = () => ({ type: ACCOUNT_CLEAR_STATE });
 
 export // -- Reducer --------------------------------------------------------------- //
 const INITIAL_STATE = {
-  network: "mainnet",
+  network: "ropsten",
   provider: null,
   web3: null,
   address: getLocal(localStorageKey).address || "",
