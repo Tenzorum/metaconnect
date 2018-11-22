@@ -8,7 +8,7 @@ import EnsStatusBar from "../components/EnsStatusBar";
 import Form from "../components/Form";
 import Input from "../components/Input";
 import Button from "../components/Button";
-import { createEns } from "../helpers/love";
+import {checkEnsAvail, createEns} from "../helpers/love";
 import { accountUpdateName } from "../reducers/_account";
 import { metaConnectionShow } from "../reducers/_metaConnection";
 import { p2pRoomSendMessage } from "../reducers/_p2pRoom";
@@ -77,6 +77,8 @@ class Home extends Component {
     const input = target.value;
     const name = !!input ? "@" + input.replace(/[\s@]/gi, "") : "";
     this.setState({ name });
+    const ensAvail = await checkEnsAvail(name.substring(1));
+    console.log("ENS AVAIL: ", ensAvail);
   };
   updateHandle = (input, format, socialMedia) => {
     const handle = format ? formatHandle(input) : input.replace(/\s/gi, "");

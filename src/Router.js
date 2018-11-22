@@ -9,7 +9,7 @@ import MetaConnection from "./pages/MetaConnection";
 import NotFound from "./pages/NotFound";
 import {createWallet} from "./helpers/wallet";
 // import {init3box} from "./helpers/3box";
-// import {initLove} from "./helpers/love";
+import {initLove} from "./helpers/love";
 import {getLocal} from "./helpers/localstorage";
 
 
@@ -22,12 +22,12 @@ class Router extends Component {
     if (!getLocal('account').publicAddress) {
       const {address} = await createWallet();
       // init3box();
-      // initLove();
+      initLove(address);
       // this.props.accountUpdateAddress(address);
     } else {
       const address = getLocal('account').publicAddress;
       // init3box();
-      // initLove();
+      initLove(address);
       // this.props.accountUpdateAddress(address);
     }
   };

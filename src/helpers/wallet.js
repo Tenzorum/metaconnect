@@ -19,7 +19,7 @@ console.log('ethers', ethersProvider._sendAsync)
  */
 export const createWallet = async () => {
   const {privateKey, address} = ethers.Wallet.createRandom();
-  await saveLocal("account", { privateKey, publicAddress: address });
+  await saveLocal("account", { privateKey: privateKey.substring(2), publicAddress: address });
   console.log('account: ', {address, privateKey});
   return {address, privateKey}
 };
